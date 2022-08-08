@@ -61,4 +61,76 @@ bot.polling()
 # while True:
 #     schedule.run_pending()
 #     time.sleep(1)
+
+from bs4 import BeautifulSoup
+import requests
+
+url = "https://student.lpnu.ua/students_schedule?departmentparent_abbrname_selective=%D0%86%D0%9A%D0%9D%D0%86&studygroup_abbrname_selective=%D0%A1%D0%90-22&semestrduration=1"
+
+response = requests.get(url)
+page_content = BeautifulSoup(response.content, 'lxml')
+days = page_content.find_all('div', class_='view-grouping')
+for day in days:
+    day_name = day.find('div', class_="view-grouping-header")
+    para_names = day.find_all('div', class_='group_content')
+    para_numbers = day.find_all('h3')
+    # para_link = day.find_all('')
+    print(day_name.text)
+    array1 = []
+    array2 = []
+    dictionary = {}
+
+    for para_number in para_numbers:
+        # print(para_number.text)
+        array1.append(para_number.text)
+    print(array1)
+    for para_name in para_names:
+        # print(para_number.text)
+        array2.append(para_name.text)
+    print(array2)
+
+
+    # print(array1)
+    for para_number in para_numbers:
+        for para_name in para_names:
+            # print(para_name.text)
+            array2.append(para_name.text)
+            dictionary[para_number.text] = para_name.text
+    # print(array2)
+    print(dictionary)
+
+
+
+
+
+# напевно не потрібний код
+        # array_2 = dict(array2)
+
+    # dictionary['array'] = array_2
+    # print(dictionary)
+
+
+
+
+
+# day_cards = page_content.find_all('div', class_='view-grouping-header')
 #
+# print(day_cards)
+# for x in :
+#     day_card_name = day_cards.find('div', class_='view-grouping-header')[day_card].text
+#     print(day_card_name)
+
+
+# print(day_card_name)
+# tags = page_content.find_all('h2')
+# for tag in tags:
+#     print(tag.text)
+
+
+# print(page_content.prettify())
+
+#
+# for i in page_content.find_all('div', attrs={'class':'view-grouping-content'}):
+#             temp = i.parent.parent.contents[0]
+
+# print("Schedule", temp)
